@@ -66,7 +66,6 @@ export default function SignUp() {
     handleSubmit,
     formState: { errors },
     reset,
-    clearErrors,
   } = useForm({
     resolver: yupResolver(signUpValidationSchema),
   });
@@ -87,16 +86,16 @@ export default function SignUp() {
       if (result.status === "error") {
         setServerSideValidate((state) => ({ ...state, errors: result.errors }));
         reset({ password: "" });
-        setServerSideValidate((state) => ({ ...state, status: "idle" }));
       }
       if (result.status === "success") {
         console.log("Sign Up successfully!");
         reset();
-        setServerSideValidate((state) => ({ ...state, status: "idle" }));
       }
     } catch (error) {
       console.log("Error: ");
       console.log(error);
+    } finally {
+      setServerSideValidate((state) => ({ ...state, status: "idle" }));
     }
   };
 
